@@ -30,7 +30,6 @@
 (global-set-key "\M-h" 'help-command)
 
 ;; Function keys
-(global-set-key [f1] 'manual-entry)
 (global-set-key [f2] 'info)
 (global-set-key [f3] 'repeat-complex-command)
 (global-set-key [f4] 'advertised-undo)
@@ -145,6 +144,10 @@
   (setq tab-width 4)
   (define-key c++-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (define-key c++-mode-map "\C-ce" 'c-comment-edit)
+  (define-key hs-minor-mode-map [f1] 'hs-hide-all)
+  (define-key hs-minor-mode-map [f2] 'hs-toggle-hiding)
+  (define-key hide-ifdef-mode-map [f3] 'hide-ifdef-block)
+  (define-key hide-ifdef-mode-map [f4] 'show-ifdef-block)
   (setq c++-auto-hungry-initial-state 'none)
 ;;  (setq c++-delete-function 'backward-delete-char)
   (setq c++-tab-always-indent t)
@@ -160,6 +163,10 @@
   (setq tab-width 4)
   (define-key c-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (define-key c-mode-map "\C-ce" 'c-comment-edit)
+  (define-key hs-minor-mode-map [f1] 'hs-hide-all)
+  (define-key hs-minor-mode-map [f2] 'hs-toggle-hiding)
+  (define-key hide-ifdef-mode-map [f3] 'hide-ifdef-block)
+  (define-key hide-ifdef-mode-map [f4] 'show-ifdef-block)
   (setq c-auto-hungry-initial-state 'none)
 ;;  (setq c-delete-function 'backward-delete-char)
   (setq c-tab-always-indent t)
@@ -197,6 +204,12 @@
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
 (add-hook 'perl-mode-hook 'my-perl-mode-hook)
+
+(add-hook 'c-mode-common-hook   'hs-minor-mode)
+(add-hook 'c++-mode-common-hook 'hs-minor-mode)
+(add-hook 'c-mode-common-hook   'hide-ifdef-mode)
+(add-hook 'c++-mode-common-hook 'hide-ifdef-mode)
+
 
 ;; Complement to next-error
 (defun previous-error (n)
