@@ -22,7 +22,9 @@
    [default default default italic underline success warning error])
  '(current-language-environment "Chinese-GB")
  '(custom-enabled-themes (quote (wombat)))
- '(package-selected-packages (quote (helm-gtags ggtags flycheck magit)))
+ '(package-selected-packages
+   (quote
+    (projectile yasnippet company helm-gtags ggtags flycheck magit)))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 (custom-set-faces
@@ -152,14 +154,56 @@
 	     (set (make-local-variable 'dabbrev-case-replace) t)))
 
 ;; C++ and C mode...
+;; setup c-ide
+(require 'company)
+(add-hook 'after-init-hook 'global-company-mode)
+(delete 'company-semantic company-backends)
+;(define-key c-mode-map  [(tab)] 'company-complete)
+;(define-key c++-mode-map  [(tab)] 'company-complete)
+
+;; company-c-headers
+(add-to-list 'company-backends 'company-c-headers)
+
+;; hs-minor-mode for folding source code
+(add-hook 'c-mode-common-hook 'hs-minor-mode)
+
+;; Available C style:
+;; ¡°gnu¡±: The default style for GNU projects
+;; ¡°k&r¡±: What Kernighan and Ritchie, the authors of C used in their book
+;; ¡°bsd¡±: What BSD developers use, aka ¡°Allman style¡± after Eric Allman.
+;; ¡°whitesmith¡±: Popularized by the examples that came with Whitesmiths C, an early commercial C compiler.
+;; ¡°stroustrup¡±: What Stroustrup, the author of C++ used in his book
+;; ¡°ellemtel¡±: Popular C++ coding standards as defined by ¡°Programming in C++, Rules and Recommendations,¡± Erik Nyquist and Mats Henricson, Ellemtel
+;; ¡°linux¡±: What the Linux developers use for kernel development
+;; ¡°python¡±: What Python developers use for extension modules
+;; ¡°java¡±: The default style for java-mode (see below)
+;; ¡°user¡±: When you want to define your own style
+(setq
+ c-default-style "K&R" ;; set style to "linux"
+ )
+
+(global-set-key (kbd "RET") 'newline-and-indent)  ; automatically indent when press RET
+
+;; activate whitespace-mode to view all whitespace characters
+(global-set-key (kbd "C-c w") 'whitespace-mode)
+
+;; show unncessary whitespace that can mess up your diff
+(add-hook 'prog-mode-hook (lambda () (interactive) (setq show-trailing-whitespace 1)))
+
+;; use space to indent by default
+(setq-default indent-tabs-mode nil)
+
+;; set appearance of a tab that is represented by 4 spaces
+(setq-default tab-width 4)
+
 (defun my-c++-mode-hook ()
   (setq c++-default-style "linux")
   (c-set-style "K&R")
   (setq c++-basic-offset 4)
   (setq indent-tabs-mode nil)
-  (setq tab-width 4)
   (define-key c++-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (define-key c++-mode-map "\C-ce" 'c-comment-edit)
+  (define-key c++-mode-map  [(tab)] 'company-complete)
   (define-key hs-minor-mode-map [f1] 'hs-hide-all)
   (define-key hs-minor-mode-map [f2] 'hs-toggle-hiding)
   (define-key hide-ifdef-mode-map [f3] 'hide-ifdef-block)
@@ -176,9 +220,9 @@
   (setq c-basic-offset 4)
   (c-set-style "K&R")
   (setq indent-tabs-mode nil)
-  (setq tab-width 4)
   (define-key c-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (define-key c-mode-map "\C-ce" 'c-comment-edit)
+  (define-key c-mode-map  [(tab)] 'company-complete)
   (define-key hs-minor-mode-map [f1] 'hs-hide-all)
   (define-key hs-minor-mode-map [f2] 'hs-toggle-hiding)
   (define-key hide-ifdef-mode-map [f3] 'hide-ifdef-block)
@@ -299,6 +343,7 @@
 (add-to-list 'load-path "~/.emacs.d/window-numbering")
 (require 'window-numbering)
 (window-numbering-mode 1)
+
 
 ;; Complement to next-error
 (defun previous-error (n)
