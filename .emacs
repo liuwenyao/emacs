@@ -24,7 +24,7 @@
  '(custom-enabled-themes (quote (wombat)))
  '(package-selected-packages
    (quote
-    (projectile yasnippet company helm-gtags ggtags flycheck magit)))
+    (smartparens ws-butler dtrt-indent clean-aindent-mode projectile yasnippet company helm-gtags ggtags flycheck magit)))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 (custom-set-faces
@@ -236,6 +236,43 @@
   (setq c-brace-offset -4)
   (setq c-argdecl-indent 0)
   (setq c-label-offset -4))
+
+;; TODO: check the following extension and configurations
+;; Package: clean-aindent-mode
+(require 'clean-aindent-mode)
+(add-hook 'prog-mode-hook 'clean-aindent-mode)
+
+;; Package: dtrt-indent
+(require 'dtrt-indent)
+(dtrt-indent-mode 1)
+
+;; Package: ws-butler
+(require 'ws-butler)
+(add-hook 'prog-mode-hook 'ws-butler-mode)
+
+;; Package: yasnippet
+(require 'yasnippet)
+(yas-global-mode 1)
+
+;; Package: smartparens
+(require 'smartparens-config)
+(setq sp-base-key-bindings 'paredit)
+(setq sp-autoskip-closing-pair 'always)
+(setq sp-hybrid-kill-entire-symbol nil)
+(sp-use-paredit-bindings)
+
+(show-smartparens-global-mode +1)
+(smartparens-global-mode 1)
+
+;; Package: projejctile
+(require 'projectile)
+(projectile-global-mode)
+(setq projectile-enable-caching t)
+
+(require 'helm-projectile)
+(helm-projectile-on)
+(setq projectile-completion-system 'helm)
+(setq projectile-indexing-method 'alien)
 
 ;; obj-c mode
 (add-to-list 'auto-mode-alist '("\\.mm\\'" . objc-mode))
