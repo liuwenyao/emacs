@@ -156,8 +156,10 @@
 ;; C++ and C mode...
 ;; setup c-ide
 (require 'company)
+(setq company-backends
+      (delete 'company-semantic company-backends))
 (add-hook 'after-init-hook 'global-company-mode)
-(delete 'company-semantic company-backends)
+
 ;(define-key c-mode-map  [(tab)] 'company-complete)
 ;(define-key c++-mode-map  [(tab)] 'company-complete)
 
