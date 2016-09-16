@@ -22,9 +22,10 @@
    [default default default italic underline success warning error])
  '(current-language-environment "Chinese-GB")
  '(custom-enabled-themes (quote (wombat)))
+ '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (smartparens ws-butler dtrt-indent clean-aindent-mode projectile yasnippet company helm-gtags ggtags flycheck magit)))
+    (sr-speedbar company-c-headers smartparens ws-butler dtrt-indent clean-aindent-mode projectile yasnippet company helm-gtags ggtags flycheck magit)))
  '(tool-bar-mode nil)
  '(tooltip-mode nil))
 (custom-set-faces
@@ -156,10 +157,8 @@
 ;; C++ and C mode...
 ;; setup c-ide
 (require 'company)
-(setq company-backends
-      (delete 'company-semantic company-backends))
 (add-hook 'after-init-hook 'global-company-mode)
-
+(delete 'company-semantic company-backends)
 ;(define-key c-mode-map  [(tab)] 'company-complete)
 ;(define-key c++-mode-map  [(tab)] 'company-complete)
 
@@ -205,7 +204,7 @@
   (setq indent-tabs-mode nil)
   (define-key c++-mode-map "\C-m" 'reindent-then-newline-and-indent)
   (define-key c++-mode-map "\C-ce" 'c-comment-edit)
-  (define-key c++-mode-map  [(tab)] 'company-complete)
+;  (define-key c++-mode-map  [tab] 'company-complete)
   (define-key hs-minor-mode-map [f1] 'hs-hide-all)
   (define-key hs-minor-mode-map [f2] 'hs-toggle-hiding)
   (define-key hide-ifdef-mode-map [f3] 'hide-ifdef-block)
@@ -299,6 +298,7 @@
 ;; Add all of the hooks...
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-hook 'c-mode-hook 'my-c-mode-hook)
+(add-hook 'objc-mode-hook 'my-c-mode-hook)
 (add-hook 'scheme-mode-hook 'my-scheme-mode-hook)
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-hook)
 (add-hook 'lisp-mode-hook 'my-lisp-mode-hook)
@@ -370,6 +370,7 @@
 (add-hook 'c-mode-hook 'helm-gtags-mode)
 (add-hook 'c++-mode-hook 'helm-gtags-mode)
 (add-hook 'asm-mode-hook 'helm-gtags-mode)
+(add-hook 'objc-mode-hook 'helm-gtags-mode)
 
 (define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
 (define-key helm-gtags-mode-map (kbd "C-j") 'helm-gtags-select)
